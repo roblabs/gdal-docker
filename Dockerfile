@@ -8,10 +8,11 @@
 # support.
 #
 
-# Ubuntu 13.10
-FROM ubuntu:saucy
+# Ubuntu 14.04 Trusty Tahyr
+FROM ubuntu:trusty
 
-MAINTAINER Homme Zwaagstra <hrz@geodata.soton.ac.uk>
+#MAINTAINER Homme Zwaagstra <hrz@geodata.soton.ac.uk>
+MAINTAINER roblabs <http://RobLabs.com>
 
 # Ensure the package repository is up to date
 RUN apt-get update -y
@@ -28,34 +29,20 @@ RUN apt-get install -y \
     wget \
     subversion
 
-# Install the ubuntu gis repository
-RUN add-apt-repository -y ppa:ubuntugis/ubuntugis-unstable
-RUN add-apt-repository -y ppa:marlam/gta
-
-# Install postgis (see http://trac.osgeo.org/postgis/wiki/UsersWikiPostGIS21UbuntuPGSQL93Apt)
-RUN sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ precise-pgdg main" >> /etc/apt/sources.list'
-RUN wget --quiet -O - http://apt.postgresql.org/pub/repos/apt/ACCC4CF8.asc | apt-key add -
-
 RUN apt-get update -y
 
-RUN apt-get install -y \
-    postgresql-9.3 \
-    postgresql-9.3-postgis \
-    postgresql-contrib
+
 
 # a mounted file systems table to make MySQL happy
 #RUN cat /proc/mounts > /etc/mtab
 
 # Install gdal dependencies provided by Ubuntu repositories
 RUN apt-get install -y \
-    mysql-server \
-    mysql-client \
     python-numpy \
     libpq-dev \
     libpng12-dev \
     libjpeg-dev \
     libgif-dev \
-    liblzma-dev \
     libgeos-dev \
     libcurl4-gnutls-dev \
     libproj-dev \
@@ -65,18 +52,14 @@ RUN apt-get install -y \
     libnetcdf-dev \
     netcdf-bin \
     libpoppler-dev \
-    libspatialite-dev \
     gpsbabel \
     swig \
     libhdf4-alt-dev \
     libhdf5-serial-dev \
-    libpodofo-dev \
     poppler-utils \
     libfreexl-dev \
     unixodbc-dev \
-    libwebp-dev \
     libepsilon-dev \
-    libgta-dev \
     liblcms2-2 \
     libpcre3-dev \
     python-dev \

@@ -18,19 +18,7 @@ cd /tmp/gdal/gdal && \
     --with-jpeg12 \
     --with-python \
     --with-poppler \
-    --with-podofo \
-    --with-spatialite \
-    --with-mysql \
-    --with-liblzma \
-    --with-webp \
-    --with-epsilon \
-    --with-gta \
-    --with-ecw=/usr/local \
-    --with-mrsid=/usr/local \
-    --with-mrsid-lidar=/usr/local \
-    --with-fgdb=/usr/local \
-    --with-libkml \
-    --with-openjpeg=/usr/local || exit 1
+    --with-pdfium=/usr/local || exit 1
 
 # Make and install
 make && \
