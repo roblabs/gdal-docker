@@ -74,6 +74,10 @@ ADD ./gdal-checkout.txt /tmp/gdal-checkout.txt
 ADD ./install-gdal.sh /tmp/
 RUN sh /tmp/install-gdal.sh
 
+# Externally accessible data is by default put in /data
+WORKDIR /data
+VOLUME ["/data"]
+
 # Clean up APT when done.
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
