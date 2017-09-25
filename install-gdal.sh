@@ -36,4 +36,4 @@ make && \
     make || exit 1
 
 # Create the test directory
-mv /tmp/gdal/autotest /usr/local/share/gdal-autotest || exit 1
+# mv /tmp/gdal/autotest /usr/local/share/gdal-autotest || exit 1

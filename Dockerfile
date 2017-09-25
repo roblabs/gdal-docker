@@ -8,13 +8,21 @@
 # support.
 #
 
-# Ubuntu 14.04 Trusty Tahyr
+# Ubuntu 14.04 Trusty Tahr
+# https://docs.docker.com/engine/reference/builder/#from
 FROM ubuntu:trusty
 
-#MAINTAINER Homme Zwaagstra <hrz@geodata.soton.ac.uk>
-MAINTAINER roblabs <http://RobLabs.com>
+# Inspired by
+#   MAINTAINER Homme Zwaagstra <hrz@geodata.soton.ac.uk>
+#   MAINTAINER Klokantech <https://www.klokantech.com>
+# https://docs.docker.com/engine/reference/builder/#label
+#  To view an image’s labels, use the `docker inspect` command.
+LABEL maintainer="roblabs <http://RobLabs.com>"
+LABEL description="minimal gdal with pdf"
+LABEL usage="docker run -it --rm -v $(pwd):/data roblabs/gdal /bin/bash"
 
 # Ensure the package repository is up to date
+# https://docs.docker.com/engine/reference/builder/#run
 RUN apt-get update -y
 
 # Temporarily hack around a docker build issue. See
@@ -28,13 +36,6 @@ RUN apt-get install -y \
     build-essential \
     wget \
     subversion
-
-RUN apt-get update -y
-
-
-
-# a mounted file systems table to make MySQL happy
-#RUN cat /proc/mounts > /etc/mtab
 
 # Install gdal dependencies provided by Ubuntu repositories
 RUN apt-get install -y \
@@ -65,7 +66,14 @@ RUN apt-get install -y \
     python-dev \
     sudo
 
+# Externally accessible data is by default put in /data
+# https://docs.docker.com/engine/reference/builder/#volume
+# https://docs.docker.com/engine/reference/builder/#workdir
+WORKDIR /data
+VOLUME ["/data"]
+
 # Install the GDAL source dependencies
+# https://docs.docker.com/engine/reference/builder/#add
 ADD ./install-gdal-deps.sh /tmp/
 RUN sh /tmp/install-gdal-deps.sh
 
@@ -74,12 +82,15 @@ ADD ./gdal-checkout.txt /tmp/gdal-checkout.txt
 ADD ./install-gdal.sh /tmp/
 RUN sh /tmp/install-gdal.sh
 
-# Externally accessible data is by default put in /data
-WORKDIR /data
-VOLUME ["/data"]
-
+# Install
 # Clean up APT when done.
-RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+  # du -h /
+  # 141M ./usr/share
+  # 34M  ./usr/local/share
 
-# Run the GDAL test suite by default
-CMD cd /usr/local/share/gdal-autotest && ./run_all.py
+RUN apt-get clean && \
+    apt-get -y remove perl && \
+    apt-get autoremove && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+CMD gdalinfo --version
