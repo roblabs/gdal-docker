@@ -13,7 +13,7 @@
 FROM ubuntu:trusty
 
 # Inspired by
-#   MAINTAINER Homme Zwaagstra <hrz@geodata.soton.ac.uk>
+#MAINTAINER Homme Zwaagstra <hrz@geodata.soton.ac.uk>
 #   MAINTAINER Klokantech <https://www.klokantech.com>
 # https://docs.docker.com/engine/reference/builder/#label
 #  To view an image’s labels, use the `docker inspect` command.
@@ -66,12 +66,6 @@ RUN apt-get install -y \
     python-dev \
     sudo
 
-# Externally accessible data is by default put in /data
-# https://docs.docker.com/engine/reference/builder/#volume
-# https://docs.docker.com/engine/reference/builder/#workdir
-WORKDIR /data
-VOLUME ["/data"]
-
 # Install the GDAL source dependencies
 # https://docs.docker.com/engine/reference/builder/#add
 ADD ./install-gdal-deps.sh /tmp/
@@ -82,15 +76,13 @@ ADD ./gdal-checkout.txt /tmp/gdal-checkout.txt
 ADD ./install-gdal.sh /tmp/
 RUN sh /tmp/install-gdal.sh
 
-# Install
-# Clean up APT when done.
-  # du -h /
-  # 141M ./usr/share
-  # 34M  ./usr/local/share
+# Externally accessible data is by default put in /data
+# https://docs.docker.com/engine/reference/builder/#volume
+# https://docs.docker.com/engine/reference/builder/#workdir
+WORKDIR /data
+VOLUME ["/data"]
 
-RUN apt-get clean && \
-    apt-get -y remove perl && \
-    apt-get autoremove && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+# Clean up APT when done.
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 CMD gdalinfo --version
