@@ -83,6 +83,10 @@ WORKDIR /data
 VOLUME ["/data"]
 
 # Clean up APT when done.
-RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN apt-get -y remove build-essential && \
+    apt-get -y remove perl && \
+    apt-get clean && \
+    apt-get -y autoremove && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/*
 
 CMD gdalinfo --version
