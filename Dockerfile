@@ -36,6 +36,7 @@ RUN apt-get install -y \
     build-essential \
     wget \
     curl \
+    python-pip \
     subversion
 
 # Install gdal dependencies provided by Ubuntu repositories
@@ -61,6 +62,7 @@ RUN apt-get install -y \
     poppler-utils \
     libfreexl-dev \
     unixodbc-dev \
+    libwebp-dev \
     libepsilon-dev \
     liblcms2-2 \
     libpcre3-dev \
@@ -82,6 +84,10 @@ RUN sh /tmp/install-gdal.sh
 # https://docs.docker.com/engine/reference/builder/#workdir
 WORKDIR /data
 VOLUME ["/data"]
+
+# Add to PATH item installed via `pip install`
+# https://docs.docker.com/engine/reference/builder/#environment-replacement
+ENV PATH="~/.local/bin:${PATH}"
 
 # Clean up APT when done.
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*

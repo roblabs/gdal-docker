@@ -15,6 +15,7 @@ cd /tmp/gdal/gdal && \
     ./configure --prefix=/usr/local \
     --without-libtool \
     --enable-debug \
+    --with-webp \
     --with-jpeg12 \
     --with-python \
     --with-poppler \

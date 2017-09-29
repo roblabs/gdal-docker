@@ -4,6 +4,15 @@
 # Install GDAL source dependencies
 #
 
+# mapbox, mb-util, json
+# https://github.com/mapbox/mapbox-cli-py#installation
+# https://github.com/mapbox/mbutil#installation
+# https://www.npmjs.com/package/json
+cd /tmp && \
+  pip install --user mapboxcli && \
+  easy_install mbutil && \
+  npm -g install json
+
 # Get source packages
 cd /tmp/ && \
     wget -q http://s3.amazonaws.com/etc-data.koordinates.com/gdal-travisci/install-libecwj2-ubuntu12.04-64bit.tar.gz && \
