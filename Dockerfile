@@ -35,6 +35,7 @@ RUN apt-get install -y \
     python-software-properties \
     build-essential \
     wget \
+    curl \
     subversion
 
 # Install gdal dependencies provided by Ubuntu repositories
