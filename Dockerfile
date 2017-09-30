@@ -36,7 +36,7 @@ RUN apt-get install -y \
     build-essential \
     wget \
     curl \
-    nodejs nodejs-legacy npm \
+    nodejs npm \
     python-pip \
     subversion
 

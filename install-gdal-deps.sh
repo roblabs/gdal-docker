@@ -11,6 +11,7 @@
 cd /tmp && \
   pip install --user mapboxcli && \
   easy_install mbutil && \
+  sudo ln -sf "$(which nodejs)" /usr/bin/node && \
   npm -g install json
 
 # Get source packages
