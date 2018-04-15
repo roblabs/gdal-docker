@@ -34,7 +34,12 @@ make && \
     make install && \
     ldconfig && \
     cd ../autotest/cpp && \
-    make || exit 0
+    make || exit 1
+
+git clone https://github.com/mapbox/tippecanoe.git
+cd tippecanoe && make \
+    && make install \
+    && make test
 
 # Create the test directory
 # mv /tmp/gdal/autotest /usr/local/share/gdal-autotest || exit 1

@@ -35,6 +35,7 @@ RUN apt-get install -y \
     python-software-properties \
     build-essential \
     wget \
+    git libsqlite3-dev zlib1g-dev \
     curl \
     nodejs npm \
     python-pip \
