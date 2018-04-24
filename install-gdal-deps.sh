@@ -11,9 +11,7 @@
 cd /tmp && \
   pip install --user mapboxcli && \
   easy_install mbutil && \
-  sudo ln -sf "$(which nodejs)" /usr/bin/node && \
-  npm -g install json && \
-  npm -g install geojson-merge
+  sudo ln -sf "$(which nodejs)" /usr/bin/node
 
 # Get source packages
 cd /tmp/ && \

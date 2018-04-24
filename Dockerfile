@@ -18,6 +18,7 @@ FROM ubuntu:trusty
 # https://docs.docker.com/engine/reference/builder/#label
 #  To view an image’s labels, use the `docker inspect` command.
 LABEL maintainer="roblabs <http://RobLabs.com>"
+LABEL version="2.1.3"
 LABEL description="minimal gdal with pdf"
 LABEL usage="docker run -it --rm -v $(pwd):/data roblabs/gdal /bin/bash"
 
@@ -30,6 +31,7 @@ RUN apt-get update -y
 RUN ln -s -f /bin/true /usr/bin/chfn
 
 # Install basic dependencies
+#  Don't rely on `apt-get` to install node & npm
 RUN apt-get install -y \
     software-properties-common \
     python-software-properties \
@@ -40,7 +42,9 @@ RUN apt-get install -y \
     nodejs npm \
     python-pip \
     subversion  \
-    && curl -sL https://deb.nodesource.com/setup_8.x  | sudo bash - && apt-get install -yq nodejs
+    && curl -sL https://deb.nodesource.com/setup_8.x  | sudo bash - && apt-get install -yq nodejs \
+    && npm -g install json geojson-merge
+
 
 # Install gdal dependencies provided by Ubuntu repositories
 RUN apt-get install -y \
