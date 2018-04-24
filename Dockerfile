@@ -39,7 +39,8 @@ RUN apt-get install -y \
     curl \
     nodejs npm \
     python-pip \
-    subversion
+    subversion  \
+    && curl -sL https://deb.nodesource.com/setup_8.x  | sudo bash - && apt-get install -yq nodejs
 
 # Install gdal dependencies provided by Ubuntu repositories
 RUN apt-get install -y \
