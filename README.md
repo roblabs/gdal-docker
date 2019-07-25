@@ -37,7 +37,7 @@ docker run -it --rm -v "$(pwd)":/data $GDAL_DOCKER_IMAGE gdalinfo --formats
 docker run -it --rm -v "$(pwd)":/data $GDAL_DOCKER_IMAGE gdalinfo --formats | grep PDF
 ```
 
-You can also see the size of the Docker images.  The OSGEO is efficieint, and my versions of Docker is fairly heavy.  Another reason to use the OSGEO version OSGEO Docker images.
+You can also see the size of the Docker images.  The OSGEO is efficient in size, and my versions of Docker are fairly heavy in `MB`:   Another reason to use the OSGEO version OSGEO Docker images.
 
 ``` bash
 osgeo/gdal                          alpine-normal-latest   2e34ee8518a5        2 months ago        156MB
