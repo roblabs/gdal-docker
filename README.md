@@ -3,6 +3,47 @@
 This is an Ubuntu derived image containing the Geospatial Data Abstraction
 Library (GDAL) compiled with a broad range of drivers.
 
+## Update for Jul 2019
+
+This repo is used for our internal uses.  Since we made this repo, there is a better option for GDAL dockers from OSGEO
+
+Please see the OSGEO GDAL Docker images — https://hub.docker.com/r/osgeo/gdal
+
+You can pull all of the OSGEO Docker images for peeking and poking around to see if they see fit your needs.
+
+``` bash
+docker pull osgeo/gdal:alpine-ultrasmall-latest
+docker pull osgeo/gdal:alpine-small-latest
+docker pull osgeo/gdal:alpine-normal-latest
+docker pull osgeo/gdal:ubuntu-small-latest
+docker pull osgeo/gdal:ubuntu-full-latest
+```
+
+For example, you can test which OSGEO Docker images support PDF or your other favorite drivers
+
+```
+# Step 1, set your GDAL_DOCKER_IMAGE
+# GDAL_DOCKER_IMAGE=roblabs/gdal
+# GDAL_DOCKER_IMAGE=osgeo/gdal:alpine-ultrasmall-latest
+# GDAL_DOCKER_IMAGE=osgeo/gdal:alpine-small-latest
+GDAL_DOCKER_IMAGE=osgeo/gdal:alpine-normal-latest
+# GDAL_DOCKER_IMAGE=osgeo/gdal:ubuntu-small-latest
+# GDAL_DOCKER_IMAGE=osgeo/gdal:ubuntu-full-latest
+
+alias gdalinfoVersion='docker run -it --rm -v "$(pwd)":/data $GDAL_DOCKER_IMAGE gdalinfo --version'
+
+docker run -it --rm -v "$(pwd)":/data $GDAL_DOCKER_IMAGE gdalinfo --version
+docker run -it --rm -v "$(pwd)":/data $GDAL_DOCKER_IMAGE gdalinfo --formats
+docker run -it --rm -v "$(pwd)":/data $GDAL_DOCKER_IMAGE gdalinfo --formats | grep PDF
+```
+
+You can also see the size of the Docker images.  The OSGEO is efficieint, and my versions of Docker is fairly heavy.  Another reason to use the OSGEO version OSGEO Docker images.
+
+``` bash
+osgeo/gdal                          alpine-normal-latest   2e34ee8518a5        2 months ago        156MB
+roblabs/gdal                        latest                 b3ed5bf8cedc        15 months ago       1.91GB
+```
+
 ## Docker hub
 
 * https://hub.docker.com/r/roblabs/gdal/
