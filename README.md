@@ -32,6 +32,13 @@ GDAL_DOCKER_IMAGE=osgeo/gdal:alpine-normal-latest
 
 alias gdalinfoVersion='docker run -it --rm -v "$(pwd)":/data $GDAL_DOCKER_IMAGE gdalinfo --version'
 
+# obtain a shell
+docker run -it --rm -v "$(pwd)":/data $GDAL_DOCKER_IMAGE /bin/sh
+
+# check Python version
+docker run -it --rm -v "$(pwd)":/data $GDAL_DOCKER_IMAGE python --version
+
+# run various GDAL commands
 docker run -it --rm -v "$(pwd)":/data $GDAL_DOCKER_IMAGE gdalinfo --version
 docker run -it --rm -v "$(pwd)":/data $GDAL_DOCKER_IMAGE gdalinfo --formats
 docker run -it --rm -v "$(pwd)":/data $GDAL_DOCKER_IMAGE gdalinfo --formats | grep PDF
@@ -40,8 +47,9 @@ docker run -it --rm -v "$(pwd)":/data $GDAL_DOCKER_IMAGE gdalinfo --formats | gr
 You can also see the size of the Docker images.  The OSGEO is efficient in size, and my versions of Docker are fairly heavy in `MB`:   Another reason to use the OSGEO version OSGEO Docker images.
 
 ``` bash
-osgeo/gdal                          alpine-normal-latest   2e34ee8518a5        2 months ago        156MB
-roblabs/gdal                        latest                 b3ed5bf8cedc        15 months ago       1.91GB
+# as of Oct 2021
+osgeo/gdal   alpine-normal-latest      9 days ago       245MB
+roblabs/gdal               latest      2 years ago      1.9GB
 ```
 
 ## Docker hub
@@ -87,7 +95,7 @@ docker logs -f roblabs/gdal
 You can use these bash shell aliases to simplify your use of gdal on the command prompt.
 
 ``` bash
-alias gdal='docker run -it --rm -v $(pwd):/data roblabs/gdal /bin/bash'
+alias gdal='docker run -it --rm -v $(pwd):/data roblabs/gdal /bin/sh'
 alias gdal_translate='docker run -it --rm -v $(pwd):/data roblabs/gdal gdal_translate'
 alias gdalinfo='docker run -it --rm -v $(pwd):/data roblabs/gdal gdalinfo'
 alias gdalwarp='docker run -it --rm -v $(pwd):/data roblabs/gdal gdalwarp'
