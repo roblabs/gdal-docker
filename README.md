@@ -1,34 +1,55 @@
 # GDAL Docker Images
 
-This is an Ubuntu derived image containing the Geospatial Data Abstraction
+This is a Docker image containing the Geospatial Data Abstraction
 Library (GDAL) compiled with a broad range of drivers.
 
-## Update for Jul 2019
+## Update for Feb 2025
 
-This repo is used for our internal uses.  Since we made this repo, there is a better option for GDAL dockers from OSGEO
+Since we made this repo, there is a better option for GDAL dockers from OSGEO, please see the OSGEO GDAL Docker images — <https://github.com/OSGeo/gdal/pkgs/container/gdal>.
 
-Please see the OSGEO GDAL Docker images — https://hub.docker.com/r/osgeo/gdal
-
-You can pull all of the OSGEO Docker images for peeking and poking around to see if they see fit your needs.
+You can peek & poke at the OSGEO GDAL Docker images if they see fit your needs.
 
 ``` bash
-docker pull osgeo/gdal:alpine-ultrasmall-latest
-docker pull osgeo/gdal:alpine-small-latest
-docker pull osgeo/gdal:alpine-normal-latest
-docker pull osgeo/gdal:ubuntu-small-latest
-docker pull osgeo/gdal:ubuntu-full-latest
+# linux
+docker pull ghcr.io/osgeo/gdal:alpine-small-latest
+docker pull ghcr.io/osgeo/gdal:alpine-normal-latest
+docker pull ghcr.io/osgeo/gdal:ubuntu-small-latest
+docker pull ghcr.io/osgeo/gdal:ubuntu-full-latest
 ```
+
+```bash
+# amd64
+docker pull ghcr.io/osgeo/gdal:alpine-small-latest-amd64
+docker pull ghcr.io/osgeo/gdal:alpine-normal-latest-amd64
+docker pull ghcr.io/osgeo/gdal:ubuntu-small-latest-amd64
+docker pull ghcr.io/osgeo/gdal:ubuntu-full-latest-amd64
+```
+
+#### Example Image sizes
+
+```bash
+docker images
+```
+
+#### Result
+
+        REPOSITORY             TAG                          IMAGE ID       CREATED             SIZE
+        ghcr.io/osgeo/gdal     ubuntu-full-latest-amd64     c25f936d3e89   3 weeks ago         2.26GB
+        ghcr.io/osgeo/gdal     ubuntu-small-latest-amd64    b0054e7792ed   4 weeks ago         345MB
+        ghcr.io/osgeo/gdal     alpine-normal-latest-amd64   0f7932d409b2   3 weeks ago         441MB
+        ghcr.io/osgeo/gdal     alpine-small-latest-amd64    d81d558f4a52   3 weeks ago         86.8MB
+
+---
+
+### Test for Features
 
 For example, you can test which OSGEO Docker images support PDF or your other favorite drivers
 
 ```
 # Step 1, set your GDAL_DOCKER_IMAGE
-# GDAL_DOCKER_IMAGE=roblabs/gdal
-# GDAL_DOCKER_IMAGE=osgeo/gdal:alpine-ultrasmall-latest
-# GDAL_DOCKER_IMAGE=osgeo/gdal:alpine-small-latest
-GDAL_DOCKER_IMAGE=osgeo/gdal:alpine-normal-latest
-# GDAL_DOCKER_IMAGE=osgeo/gdal:ubuntu-small-latest
-# GDAL_DOCKER_IMAGE=osgeo/gdal:ubuntu-full-latest
+# GDAL_DOCKER_IMAGE=ghcr.io/osgeo/gdal:ubuntu-normal-latest
+# GDAL_DOCKER_IMAGE=ghcr.io/osgeo/gdal:alpine-small-latest-amd64
+GDAL_DOCKER_IMAGE=ghcr.io/osgeo/gdal:alpine-small-latest-amd64
 
 alias gdalinfoVersion='docker run -it --rm -v "$(pwd)":/data $GDAL_DOCKER_IMAGE gdalinfo --version'
 
@@ -44,49 +65,14 @@ docker run -it --rm -v "$(pwd)":/data $GDAL_DOCKER_IMAGE gdalinfo --formats
 docker run -it --rm -v "$(pwd)":/data $GDAL_DOCKER_IMAGE gdalinfo --formats | grep PDF
 ```
 
-You can also see the size of the Docker images.  The OSGEO is efficient in size, and my versions of Docker are fairly heavy in `MB`:   Another reason to use the OSGEO version OSGEO Docker images.
-
-``` bash
-# as of Oct 2021
-osgeo/gdal   alpine-normal-latest      9 days ago       245MB
-roblabs/gdal               latest      2 years ago      1.9GB
-```
-
-## Docker hub
-
-* https://hub.docker.com/r/roblabs/gdal/
-
-
-## Usage
-
-The following command will open a bash shell in an Ubuntu based environment
-with GDAL available:
-
-    docker run -it --rm roblabs/gdal /bin/bash
-
-You will most likely want to work with data on the host system from within the
-docker container, in which case run the container with the -v option. This
-mounts a host directory inside the container; the following invocation maps the
-host's local directory to /data in the container:
-
-    docker run -it --rm -v $(pwd):/data roblabs/gdal /bin/bash
-
-Note that the with the image tagged `latest`, GDAL represents the latest code
-*at the time the image was built*. If you want to include the most up-to-date
-commits then build the docker image yourself locally along these lines:
-
-    docker build -t roblabs/gdal git://github.com/roblabs/gdal-docker/
-
-or, if you have already cloned this repo
-
-    docker build -t roblabs/gdal:latest .
+---
 
 
 ### Useful commands
 
 ```bash
 # If you exit out of an AWS session, you can log back in to see if anything is still running
-docker logs -f roblabs/gdal
+docker logs -f $GDAL_DOCKER_IMAGE
 ```
 
 
@@ -95,9 +81,9 @@ docker logs -f roblabs/gdal
 You can use these bash shell aliases to simplify your use of gdal on the command prompt.
 
 ``` bash
-alias gdal='docker run -it --rm -v $(pwd):/data roblabs/gdal /bin/sh'
-alias gdal_translate='docker run -it --rm -v $(pwd):/data roblabs/gdal gdal_translate'
-alias gdalinfo='docker run -it --rm -v $(pwd):/data roblabs/gdal gdalinfo'
-alias gdalwarp='docker run -it --rm -v $(pwd):/data roblabs/gdal gdalwarp'
-alias ogr2ogr='docker run -it --rm -v $(pwd):/data roblabs/gdal ogr2ogr'
+alias gdal='docker run -it --rm -v $(pwd):/data $GDAL_DOCKER_IMAGE /bin/sh'
+alias gdal_translate='docker run -it --rm -v $(pwd):/data $GDAL_DOCKER_IMAGE gdal_translate'
+alias gdalinfo='docker run -it --rm -v $(pwd):/data $GDAL_DOCKER_IMAGE gdalinfo'
+alias gdalwarp='docker run -it --rm -v $(pwd):/data $GDAL_DOCKER_IMAGE gdalwarp'
+alias ogr2ogr='docker run -it --rm -v $(pwd):/data $GDAL_DOCKER_IMAGE ogr2ogr'
 ```
